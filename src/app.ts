@@ -1,18 +1,24 @@
-import express from 'express';
-const port  = 8080;
-import userRoute from './routers/user.js';
-import { connectDB } from './utils/features.js';
-import { errorMiddleware } from './middlewares/error.js';
+import express from "express";
+const port = 8080;
+import { connectDB } from "./utils/features.js";
+import { errorMiddleware } from "./middlewares/error.js";
+import userRoute from "./routers/user.js";
+import productRoute from "./routers/product.js";
+import NodeCache from "node-cache";
 
 connectDB();
 
-const app = express()
+export const nodeCache = new NodeCache();
 
-app.use(express.json())
-app.use('/api/v1/user', userRoute)
+const app = express();
 
-app.use(errorMiddleware)
+app.use(express.json());
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/product", productRoute);
+
+app.use('/uploads', express.static('uploads'))
+app.use(errorMiddleware);
 
 app.listen(port, () => {
-    console.log(`Server Started on port ${port}`)
-})
+  console.log(`Server Started on port ${port}`);
+});

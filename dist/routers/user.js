@@ -1,10 +1,11 @@
 import express from "express";
 import { newUser, getAllUsers, getUser, deleteUser, } from "../contollers/user.js";
+import { isAdmin } from "../middlewares/auth.js";
 const app = express.Router();
 // route - /api/v1/user/{user api name}
 app
     .post("/new", newUser)
-    .get("/all", getAllUsers)
+    .get("/all", isAdmin, getAllUsers)
     .get("/:id", getUser)
-    .delete("/:id", deleteUser);
+    .delete("/:id", isAdmin, deleteUser);
 export default app;
