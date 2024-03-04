@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { NumberExpression } from "mongoose";
 
 export interface NewUserRequestbody {
   name: string;
@@ -43,4 +44,31 @@ export type InvalidateCacheProps = {
   product?: boolean;
   order?: boolean;
   admin?: boolean;
+};
+
+export type orderItemsType = {
+  name: string,
+  photo: string,
+  price: number,
+  quantity: number,
+  productId: string,
+};
+
+export type shippingInfoType = {
+  address: string,
+  city: string,
+  state: string,
+  country: string,
+  pincode: number,
+};
+
+export interface NewOrderRequestBody {
+  shippingInfo: shippingInfoType,
+  user: string,
+  subtotal: number,
+  tax: number,
+  shippingCharges: number,
+  discount: number,
+  total: number,
+  orderItems: orderItemsType[]
 };

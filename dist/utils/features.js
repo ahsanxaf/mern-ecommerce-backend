@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import { nodeCache } from "../app.js";
 import { Product } from "../models/product.js";
-export const connectDB = async () => {
+export const connectDB = async (uri) => {
     await mongoose
-        .connect("mongodb://127.0.0.1:27017", {
+        .connect(uri, {
         dbName: "Ecommerce_24",
     })
         .then((c) => console.log(`Database connected to ${c.connection.host}`))
@@ -25,5 +25,16 @@ export const invalidateCache = async ({ product, order, admin, }) => {
     if (order) {
     }
     if (admin) {
+    }
+};
+export const reduceStock = async (orderItems) => {
+    for (let i = 0; i < orderItems.length; i++) {
+        const order = orderItems[i];
+        const product = await Product.findById(order.productId);
+        if (!product) {
+            throw new Error('No Product Found');
+        }
+        product.stock -= order.quantity;
+        await product.save();
     }
 };
