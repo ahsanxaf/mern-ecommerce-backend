@@ -4,6 +4,7 @@ import { errorMiddleware } from "./middlewares/error.js";
 import userRoute from "./routers/user.js";
 import productRoute from "./routers/product.js";
 import orderRoute from "./routers/order.js";
+import paymentRoute from "./routers/payment.js";
 import NodeCache from "node-cache";
 import { config } from "dotenv";
 import morgan from 'morgan';
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/order", orderRoute);
+app.use("/api/v1/payment", paymentRoute);
 
 app.use('/uploads', express.static('uploads'))
 app.use(errorMiddleware);
