@@ -1,10 +1,25 @@
 import { TryCatch } from "../middlewares/error.js";
 import { Coupon } from "../models/coupon.js";
 import ErrorHandler from "../utils/utility-class.js";
+import { stripe } from "../app.js";
+export const createPaymentIntent = TryCatch(async (req, res, next) => {
+    const { amount } = req.body;
+    if (!amount) {
+        return next(new ErrorHandler("Please Enter Amount", 400));
+    }
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: Number(amount) * 100,
+        currency: "usd",
+    });
+    return res.status(201).json({
+        success: true,
+        clientSecret: paymentIntent.client_secret
+    });
+});
 export const createCoupon = TryCatch(async (req, res, next) => {
     const { coupon, amount } = req.body;
     if (!coupon || !amount) {
-        return next(new ErrorHandler("Please Enter both Coupon and Amount", 404));
+        return next(new ErrorHandler("Please Enter both Coupon and Amount", 400));
     }
     await Coupon.create({ couponCode: coupon, amount });
     return res.status(201).json({
