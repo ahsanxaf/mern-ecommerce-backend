@@ -87,14 +87,12 @@ export const newOrder = TryCatch(
 
     if (
       !shippingInfo ||
-      !orderItems ||
       !user ||
       !subtotal ||
       !tax ||
       !shippingCharges ||
-      !discount ||
       !total
-    ) {
+    ) {  
       return next(new ErrorHandler("Please Fill all the Fields", 400));
     }
 
@@ -177,7 +175,7 @@ export const deleteOrder = TryCatch(
     await order.deleteOne();
 
     invalidateCache({
-      product: false,
+      product: true,
       order: true,
       admin: true,
       userId: order.user,

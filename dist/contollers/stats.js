@@ -89,9 +89,9 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
         const revenue = allOrders.reduce((total, order) => total + (order.total || 0), 0);
         const count = {
             revenue,
-            user: usersCount,
-            product: productsCount,
-            order: allOrders.length,
+            users: usersCount,
+            products: productsCount,
+            orders: allOrders.length,
         };
         const changePercent = {
             revenue: calculatePercentage(thisMonthRevenue, lastMonthRevenue),

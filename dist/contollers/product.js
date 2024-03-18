@@ -5,17 +5,17 @@ import { rm } from "fs";
 import { nodeCache } from "../app.js";
 import { invalidateCache } from "../utils/features.js";
 export const getLatestProducts = TryCatch(async (req, res, next) => {
-    let latestProducts;
+    let products;
     if (nodeCache.has("latest-products")) {
-        latestProducts = JSON.parse(nodeCache.get("latest-products"));
+        products = JSON.parse(nodeCache.get("latest-products"));
     }
     else {
-        latestProducts = await Product.find({}).sort({ createdAt: -1 }).limit(5);
-        nodeCache.set("latest-products", JSON.stringify(latestProducts));
+        products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+        nodeCache.set("latest-products", JSON.stringify(products));
     }
     return res.status(200).json({
         success: true,
-        latestProducts,
+        products,
     });
 });
 export const getAllCategories = TryCatch(async (req, res, next) => {
@@ -33,17 +33,17 @@ export const getAllCategories = TryCatch(async (req, res, next) => {
     });
 });
 export const getAdminProducts = TryCatch(async (req, res, next) => {
-    let adminProducts;
+    let products;
     if (nodeCache.has("adminProducts")) {
-        adminProducts = JSON.parse(nodeCache.get("adminProducts"));
+        products = JSON.parse(nodeCache.get("adminProducts"));
     }
     else {
-        adminProducts = await Product.find({});
-        nodeCache.set("adminProducts", JSON.stringify(adminProducts));
+        products = await Product.find({});
+        nodeCache.set("adminProducts", JSON.stringify(products));
     }
     return res.status(201).json({
         success: true,
-        adminProducts,
+        products,
     });
 });
 export const getSingleProduct = TryCatch(async (req, res, next) => {

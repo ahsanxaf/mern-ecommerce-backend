@@ -14,18 +14,18 @@ import { invalidateCache } from "../utils/features.js";
 
 export const getLatestProducts = TryCatch(
   async (req: Request, res: Response, next: NextFunction) => {
-    let latestProducts;
+    let products;
     if (nodeCache.has("latest-products")) {
-      latestProducts = JSON.parse(nodeCache.get("latest-products") as string);
+      products = JSON.parse(nodeCache.get("latest-products") as string);
     } else {
-      latestProducts = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+      products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
 
-      nodeCache.set("latest-products", JSON.stringify(latestProducts));
+      nodeCache.set("latest-products", JSON.stringify(products));
     }
 
     return res.status(200).json({
       success: true,
-      latestProducts,
+      products,
     });
   }
 );
@@ -49,17 +49,17 @@ export const getAllCategories = TryCatch(
 
 export const getAdminProducts = TryCatch(
   async (req: Request, res: Response, next: NextFunction) => {
-    let adminProducts;
+    let products;
     if (nodeCache.has("adminProducts")) {
-      adminProducts = JSON.parse(nodeCache.get("adminProducts") as string);
+      products = JSON.parse(nodeCache.get("adminProducts") as string);
     } else {
-      adminProducts = await Product.find({});
-      nodeCache.set("adminProducts", JSON.stringify(adminProducts));
+      products = await Product.find({});
+      nodeCache.set("adminProducts", JSON.stringify(products));
     }
 
     return res.status(201).json({
       success: true,
-      adminProducts,
+      products,
     });
   }
 );

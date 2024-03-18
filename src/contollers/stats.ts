@@ -130,9 +130,9 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
     const count = {
       revenue,
-      user: usersCount,
-      product: productsCount,
-      order: allOrders.length,
+      users: usersCount,
+      products: productsCount,
+      orders: allOrders.length,
     };
 
     const changePercent = {

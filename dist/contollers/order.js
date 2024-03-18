@@ -56,12 +56,10 @@ export const getSingleOrder = TryCatch(async (req, res, next) => {
 export const newOrder = TryCatch(async (req, res, next) => {
     const { shippingInfo, orderItems, user, subtotal, tax, shippingCharges, discount, total, } = req.body;
     if (!shippingInfo ||
-        !orderItems ||
         !user ||
         !subtotal ||
         !tax ||
         !shippingCharges ||
-        !discount ||
         !total) {
         return next(new ErrorHandler("Please Fill all the Fields", 400));
     }
@@ -126,7 +124,7 @@ export const deleteOrder = TryCatch(async (req, res, next) => {
     }
     await order.deleteOne();
     invalidateCache({
-        product: false,
+        product: true,
         order: true,
         admin: true,
         userId: order.user,
